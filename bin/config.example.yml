@@ -1,0 +1,14 @@
+database:
+  name: 
+  host: 
+  user: 
+  pass:
+  port: 
+
+webserver:
+  host: 
+  port: 
+  bindingpath:
+
+telegram:
+  token: 

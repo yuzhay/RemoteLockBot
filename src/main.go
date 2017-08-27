@@ -14,10 +14,12 @@ var db *gorm.DB
 var config *ConfigStruct
 
 func main() {
+	go runTelegramBot(config.Telegram.Token)
 	runHttpsServer(
 		config.WebServer.Host,
 		config.WebServer.Port,
 		config.WebServer.BindingPath)
+
 }
 
 func init() {
@@ -37,7 +39,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
+	//defer db.Close()
 
 	initMigration()
 }

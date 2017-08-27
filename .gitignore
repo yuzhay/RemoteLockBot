@@ -1,0 +1,4 @@
+bin/app
+bin/config.yml
+bin/certs/cert.pem
+bin/cert/key.pem

@@ -22,6 +22,10 @@ type ConfigStruct struct {
 		Port        int
 		BindingPath string
 	}
+
+	Telegram struct {
+		Token string
+	}
 }
 
 func LoadConfig(configPath string) (*ConfigStruct, error) {

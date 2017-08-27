@@ -23,17 +23,35 @@ func runHttpsServer(host string, port int, bindingPath string) {
 	}
 
 	http.HandleFunc(bindingPath, handler)
-	log.Printf("Server started: %s:%d", host, port)
+	log.Printf("Server started: https://%s:%d", host, port)
 	http.ListenAndServeTLS(fmt.Sprintf(":%d", port), certFile, keyFile, nil)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			http.Error(w, "error: reading request body", http.StatusInternalServerError)
-		}
-		log.Printf("%s", body)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "error: reading request body", http.StatusInternalServerError)
 	}
+
 	fmt.Fprintf(w, "OK")
+
+	message := fmt.Sprintf(
+		"Host: %s,\nCookies: %s,\nMethod: %s,\nBody: %s,\nReferer: %s\nRemoteAddr: %s,\nRequestURI: %s",
+		r.Host,
+		r.Cookies,
+		r.Method,
+		string(body),
+		r.Referer,
+		r.RemoteAddr,
+		r.RequestURI)
+
+	notifyAllUsers(message)
+}
+
+func notifyAllUsers(message string) {
+	var ids []int64
+	db.Table("users").Pluck("id", &ids)
+	for _, id := range ids {
+		sendMessage(id, message)
+	}
 }
