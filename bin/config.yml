@@ -1,0 +1,11 @@
+database:
+  name: remotelock
+  host: localhost
+  user: y.zhayvoronok
+  pass:
+  port: 5432
+
+webserver:
+  host: 0.0.0.0
+  port: 65000
+  bindingpath: /
