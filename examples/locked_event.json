@@ -1,0 +1,21 @@
+{
+    "data":{
+        "type":"locked_event",
+        "attributes":{
+            "source":"device",
+            "status":"succeeded",
+            "time_zone":"Europe/Athens",
+            "occurred_at":"2017-09-06T17:28:31Z",
+            "created_at":"2017-09-06T17:28:34Z",
+            "updated_at":"2017-09-06T17:28:34Z",
+            "method":"auto_lock",
+            "publisher_id":"f18cdfa3-ad39-44f6-8e4d-251a47c84f12",
+            "publisher_type":"lock"
+        },
+        "id":"03eae01b-aaf9-4cc6-9d2c-0de7997e9413",
+        "links":{
+            "self":"/events/03eae01b-aaf9-4cc6-9d2c-0de7997e9413",
+            "publisher":"/devices/f18cdfa3-ad39-44f6-8e4d-251a47c84f12"
+        }
+    }
+}

@@ -1,11 +1,13 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 
+	"./remotelock"
 	"github.com/kabukky/httpscerts"
 )
 
@@ -45,7 +47,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		r.RemoteAddr,
 		r.RequestURI)
 
-	notifyAllUsers(message)
+	var response = remotelock.Response{}
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		notifyAllUsers("asd" + message)
+		return
+	}
+	notifyAllUsers(parse(&response))
 }
 
 func notifyAllUsers(message string) {
@@ -54,4 +62,20 @@ func notifyAllUsers(message string) {
 	for _, id := range ids {
 		sendMessage(id, message)
 	}
+}
+
+func parse(response *remotelock.Response) string {
+	if response == nil {
+		return ""
+	}
+	data := response.Data
+
+	message := "Unknown type event"
+	switch data.Type {
+	case "locked_event":
+		message = remotelock.LockedEventDecorator(data)
+	case "unlocked_event":
+		message = remotelock.UnlockedEventDecorator(data)
+	}
+	return message
 }

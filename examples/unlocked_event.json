@@ -1,0 +1,29 @@
+{
+    "data":{
+        "type":"unlocked_event",
+        "attributes":{
+            "source":"user",
+            "status":"succeeded",
+            "time_zone":"Europe/Athens",
+            "occurred_at":"2017-09-06T17:28:24Z",
+            "created_at":"2017-09-06T17:28:31Z",
+            "updated_at":"2017-09-06T17:28:31Z",
+            "associated_resource_name":null,
+            "status_info":null,
+            "method":"pin",
+            "card":null,
+            "pin":"959260",
+            "smart_card_serial_number":null,
+            "publisher_id":"f18cdfa3-ad39-44f6-8e4d-251a47c84f12",
+            "publisher_type":"lock",
+            "associated_resource_id":"6622b36d-bf37-4233-bd96-b16a91b3c823",
+            "associated_resource_type":"access_guest"
+        },
+        "id":"3a401a8d-5fc3-4fe8-bebc-6d81360cae96",
+        "links":{
+            "self":"/events/3a401a8d-5fc3-4fe8-bebc-6d81360cae96",
+            "publisher":"/devices/f18cdfa3-ad39-44f6-8e4d-251a47c84f12",
+            "associated_resource":"/access_persons/6622b36d-bf37-4233-bd96-b16a91b3c823"
+        }
+    }
+}
