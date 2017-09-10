@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -14,16 +15,13 @@ var db *gorm.DB
 var config *ConfigStruct
 
 func main() {
-	go runTelegramBot(config.Telegram.Token)
-	runHttpsServer(
-		config.WebServer.Host,
-		config.WebServer.Port,
-		config.WebServer.BindingPath)
+	f, err := os.OpenFile("output.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+	log.SetOutput(f)
 
-}
-
-func init() {
-	var err error
 	config, err = LoadConfig(configPath)
 	if err != nil {
 		log.Fatal("config: can't read config")
@@ -39,9 +37,15 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	//defer db.Close()
+	defer db.Close()
 
 	initMigration()
+
+	go runTelegramBot(config.Telegram.Token)
+	runHTTPSServer(
+		config.WebServer.Host,
+		config.WebServer.Port,
+		config.WebServer.BindingPath)
 }
 
 func initMigration() {

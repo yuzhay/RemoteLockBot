@@ -1,4 +1,4 @@
 #!/bin/bash
 
-go build -o bin/app src/*.go
-cd bin && ./app
+go build -o bin/rlbot src/*.go
+cd bin && ./rlbot

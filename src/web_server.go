@@ -14,7 +14,7 @@ import (
 const certFile = "certs/cert.pem"
 const keyFile = "certs/key.pem"
 
-func runHttpsServer(host string, port int, bindingPath string) {
+func runHTTPSServer(host string, port int, bindingPath string) {
 	err := httpscerts.Check(certFile, keyFile)
 
 	if err != nil {
@@ -33,24 +33,28 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, "error: reading request body", http.StatusInternalServerError)
+		log.Printf("error: reading request body", http.StatusInternalServerError)
 	}
 
 	fmt.Fprintf(w, "OK")
 
 	message := fmt.Sprintf(
-		"Host: %s,\nCookies: %s,\nMethod: %s,\nBody: %s,\nReferer: %s\nRemoteAddr: %s,\nRequestURI: %s",
+		"Host: %s,\nMethod: %s,\nBody: %s,\nRemoteAddr: %s,\nHttp-x-real-ip: %s,\nRequestURI: %s",
 		r.Host,
-		r.Cookies,
 		r.Method,
 		string(body),
-		r.Referer,
 		r.RemoteAddr,
+		r.Header.Get("HTTP_X_REAL_IP"),
 		r.RequestURI)
 
 	var response = remotelock.Response{}
 	err = json.Unmarshal(body, &response)
+
+	log.Printf("raw request: %s", body)
+
 	if err != nil {
-		notifyAllUsers("asd" + message)
+		notifyAllUsers("can't unmarshall json")
+		log.Printf("can't unmarshall json: \n{%s}", message)
 		return
 	}
 	notifyAllUsers(parse(&response))
@@ -69,13 +73,15 @@ func parse(response *remotelock.Response) string {
 		return ""
 	}
 	data := response.Data
-
 	message := "Unknown type event"
+
 	switch data.Type {
 	case "locked_event":
 		message = remotelock.LockedEventDecorator(data)
 	case "unlocked_event":
 		message = remotelock.UnlockedEventDecorator(data)
+	default:
+		log.Printf("Unknown event type: %s", data.Type)
 	}
 	return message
 }
