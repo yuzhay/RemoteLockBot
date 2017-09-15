@@ -1,0 +1,26 @@
+{
+  "data":{
+    "type":"access_denied_event",
+    "attributes":{
+      "source":"user",
+      "status":"failed",
+      "time_zone":"Europe/Athens",
+      "occurred_at":"2017-09-11T22:42:09Z",
+      "created_at":"2017-09-11T22:42:21Z",
+      "updated_at":"2017-09-11T22:42:21Z",
+      "associated_resource_name":null,
+      "status_info":null,
+      "method":"pin",
+      "card":null,
+      "pin":"99",
+      "smart_card_serial_number":null,
+      "publisher_id":"f18cdfa3-ad39-44f6-8e4d-251a47c84f12",
+      "publisher_type":"lock"
+     },
+     "id":"ee2481ab-6f4b-4a81-90da-70ca6f8e07ac",
+     "links":{
+      "self":"/events/ee2481ab-6f4b-4a81-90da-70ca6f8e07ac",
+      "publisher":"/devices/f18cdfa3-ad39-44f6-8e4d-251a47c84f12"
+    }
+  }
+}
