@@ -80,6 +80,10 @@ func parse(response *remotelock.Response) string {
 		message = remotelock.LockedEventDecorator(data)
 	case "unlocked_event":
 		message = remotelock.UnlockedEventDecorator(data)
+	case "access_denied_event":
+		message = remotelock.AccessDeniedEventDecorator(data)
+	case "access_person_synced_event":
+		message = remotelock.AccessPersonSyncedEventDecorator(data)
 	default:
 		log.Printf("Unknown event type: %s", data.Type)
 	}
